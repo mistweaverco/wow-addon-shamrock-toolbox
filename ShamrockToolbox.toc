@@ -1,0 +1,8 @@
+## Interface: 100100
+## Title: ShamrockToolbox
+## Version: 0.0.1
+## Notes: Restoration Shaman Toolbox.
+## Author: Walialu
+## SavedVariablesPerCharacter: ShamrockToolboxDB
+
+ShamrockToolbox.lua
