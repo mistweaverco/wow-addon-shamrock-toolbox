@@ -138,7 +138,7 @@ function has_weapon_enchant()
     for i, buff in pairs(M.Buffs.Weapon) do
       if (buff.active) then
         buff.active = false
-        M.Remove(buff)
+        M.RemoveBuff(buff)
       end
     end
   end

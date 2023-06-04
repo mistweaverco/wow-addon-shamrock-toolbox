@@ -1,6 +1,6 @@
 ## Interface: 100100
 ## Title: ShamrockToolbox
-## Version: 0.0.1
+## Version: 0.0.2
 ## Notes: Restoration Shaman Toolbox.
 ## Author: Walialu
 ## SavedVariablesPerCharacter: ShamrockToolboxDB
