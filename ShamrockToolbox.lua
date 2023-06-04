@@ -51,6 +51,10 @@ M.Buffs.Player["Earth Shield"] = {
   icon = "spell_nature_skinofearth",
 }
 
+function play_sound(sound)
+  PlaySoundFile("Interface\\AddOns\\ShamrockToolbox\\sounds\\" .. sound .. ".ogg", "Master")
+end
+
 function M.fetch_talent_info()
   local spec_id = PlayerUtil.GetCurrentSpecID()
   local config_id = C_ClassTalents.GetLastSelectedSavedConfigID(spec_id) or C_ClassTalents.GetActiveConfigID()
@@ -171,10 +175,7 @@ function check_player_buffs_on_entering_world()
   end
 end
 
-M.Frames.player_entering_world = CreateFrame("Frame")
-M.Frames.player_entering_world:RegisterEvent("PLAYER_ENTERING_WORLD")
-M.Frames.player_entering_world:RegisterEvent("UNIT_INVENTORY_CHANGED")
-M.Frames.player_entering_world:SetScript("OnEvent", function(self, event, ...)
+function on_player_entering_world()
   -- required to get the selected talents
   M.fetch_talent_info()
 
@@ -189,7 +190,12 @@ M.Frames.player_entering_world:SetScript("OnEvent", function(self, event, ...)
   end
 
   check_player_buffs_on_entering_world()
-end)
+end
+
+M.Frames.player_entering_world = CreateFrame("Frame")
+M.Frames.player_entering_world:RegisterEvent("PLAYER_ENTERING_WORLD")
+M.Frames.player_entering_world:RegisterEvent("UNIT_INVENTORY_CHANGED")
+M.Frames.player_entering_world:SetScript("OnEvent", on_player_entering_world)
 
 function on_added_auras(added_auras)
   if (added_auras) then
@@ -220,9 +226,7 @@ function on_removed_auras(removed_auras)
   end
 end
 
-M.Frames.unit_aura = CreateFrame("Frame")
-M.Frames.unit_aura:RegisterEvent("UNIT_AURA")
-M.Frames.unit_aura:SetScript("OnEvent", function(self, event, unit, update_info)
+function on_unit_aura_event(self, event, unit, update_info)
   if (unit == nil) then
     return
   end
@@ -235,7 +239,11 @@ M.Frames.unit_aura:SetScript("OnEvent", function(self, event, unit, update_info)
 
   on_added_auras(update_info.addedAuras)
   on_removed_auras(update_info.removedAuraInstanceIDs)
-end)
+end
+
+M.Frames.unit_aura = CreateFrame("Frame")
+M.Frames.unit_aura:RegisterEvent("UNIT_AURA")
+M.Frames.unit_aura:SetScript("OnEvent", on_unit_aura_event)
 
 function M.AddBuff(buff)
   M.Frames[buff.internal_id]:Hide()
